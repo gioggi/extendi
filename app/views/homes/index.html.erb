@@ -1,0 +1,35 @@
+<div data-controller="homes">
+  <% flash.each do |type, msg| %>
+    <div>
+      <%= msg %>
+    </div>
+  <% end %>
+  <br>
+
+  <div class="flex no-wrap">
+    <div class="w-full">
+      <%= form_for :home, url: "homes/load_generation" do |form| %>
+        <%= form.label 'Load a valid csv' %>
+        <%= form.file_field :file %>
+        <%= form.button 'Load generation', data: { action: 'homes#stopTimer'} %>
+      <% end %>
+      <div class="flex flex-row">
+
+        <%= button_to 'Start generation', homes_next_generation_path, method: :post, type: :button, id: 'next', data: { action: 'homes#startGeneration', 'homes-target':'next'}  %>
+        <%= button_to 'Reset generation', homes_reset_generation_path, method: :post, type: :button  , data: { action: 'homes#stopTimer'}%>
+      </div>
+    </div>
+    <br>
+    <div class="w-full flex">
+      <% @grid.each do |y| %>
+        <div class="flex flex-col">
+          <% y.each do |x| %>
+            <div class="flex flex-row">
+              <%= x %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
